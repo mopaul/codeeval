@@ -1,2 +1,5 @@
 /bin
 /codeEval
+.project
+.classpath
+.settings/*
