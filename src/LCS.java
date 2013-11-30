@@ -13,18 +13,23 @@ public class LCS {
 
 		int M = str1.length();
 		int N = str2.length();
+		
+		if(N==0 || M==0){
+			return l.toString();
+		}
+		
 		int lcs[][] = new int[M+1][N+1];
 		Move action[][] = new Move[M+1][N+1];
 
 		//initialize
 		for (int m=0, n=0; n <= N; n++){
-			lcs[n][m] = 0;
-			action[n][m] = Move.NOOP;
+			lcs[m][n] = 0;
+			action[m][n] = Move.NOOP;
 
 		}
 		for (int m=0, n=0; m <= M; m++){
-			lcs[n][m] = 0;
-			action[n][m] = Move.NOOP;
+			lcs[m][n] = 0;
+			action[m][n] = Move.NOOP;
 		}
 
 		//do dyn prog
@@ -46,9 +51,9 @@ public class LCS {
 
 			}
 		}
-		
+
 		//System.out.println(lcs[M][N]);
-				
+
 		//build lcs.
 		for (int m = M, n = N; m > 0 && n > 0; ){
 			if (action[m][n].equals(Move.DIAG)){
@@ -59,27 +64,26 @@ public class LCS {
 			else if (action[m][n].equals(Move.LEFT)) n--;
 			else if (action[m][n].equals(Move.UP)) m--;
 			else break;
-			
+
 		}
-		
+
 		return l.reverse().toString();
 	}	
 
 
-public static void main (String[] args) throws IOException {
-	File file = new File(args[0]);
-	BufferedReader in = new BufferedReader(new FileReader(file));
-	String line;
-	while ((line = in.readLine()) != null) {
-		if (line.length() == 0) continue;
-		String toks[] = line.split(";");
-		System.out.println(lcs(toks[0], toks[1]));
+	public static void main (String[] args) throws IOException {
+		File file = new File(args[0]);
+		BufferedReader in = new BufferedReader(new FileReader(file));
+		String line;
+		while ((line = in.readLine()) != null) {
+			if (line.length() == 0) continue;
+			String toks[] = line.split(";");
+			if (toks.length < 0) continue;
+			System.out.println(lcs(toks[0], toks[1]));
+		}
+
+		in.close();
+		System.exit(0);
 	}
-
-	in.close();
-
-
-	System.exit(0);
-}
 }
 
